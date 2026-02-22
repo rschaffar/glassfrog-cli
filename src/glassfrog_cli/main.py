@@ -1,4 +1,7 @@
+import sys
+
 import click
+import httpx
 
 from glassfrog_cli.commands.assignments import assignments
 from glassfrog_cli.commands.circles import circles
@@ -8,7 +11,43 @@ from glassfrog_cli.commands.projects import projects
 from glassfrog_cli.commands.roles import roles
 
 
-@click.group()
+class GlassFrogCLI(click.Group):
+    """Click group with friendly error handling for API errors."""
+
+    def invoke(self, ctx):
+        try:
+            return super().invoke(ctx)
+        except httpx.HTTPStatusError as e:
+            status = e.response.status_code
+            if status == 401:
+                raise click.ClickException(
+                    "Authentication failed. Check your API token."
+                ) from e
+            elif status == 403:
+                raise click.ClickException(
+                    "Access denied. Your API token may lack required permissions."
+                ) from e
+            elif status == 404:
+                raise click.ClickException("Resource not found.") from e
+            elif status == 429:
+                raise click.ClickException(
+                    "Rate limited by GlassFrog API. Try again shortly."
+                ) from e
+            else:
+                raise click.ClickException(
+                    f"API error (HTTP {status}): {e.response.text[:200]}"
+                ) from e
+        except httpx.ConnectError as e:
+            raise click.ClickException(
+                "Cannot connect to GlassFrog API. Check your network connection."
+            ) from e
+        except httpx.TimeoutException as e:
+            raise click.ClickException(
+                "Request to GlassFrog API timed out. Try again."
+            ) from e
+
+
+@click.group(cls=GlassFrogCLI)
 @click.option("--token", "-t", envvar="GLASSFROG_API_TOKEN", help="GlassFrog API token.")
 @click.option(
     "--output",
@@ -18,9 +57,21 @@ from glassfrog_cli.commands.roles import roles
     help="Output format.",
 )
 @click.option("--no-color", is_flag=True, help="Disable colored output.")
+@click.version_option(version="0.1.0", prog_name="glassfrog-cli")
 @click.pass_context
 def cli(ctx, token, output, no_color):
-    """GlassFrog CLI - read-only access to the GlassFrog API."""
+    """GlassFrog CLI - read-only access to the GlassFrog API.
+
+    Browse your organization's circles, roles, people, projects, and
+    meeting data from the command line.
+
+    Configure your API token via:
+
+    \b
+      --token flag
+      GLASSFROG_API_TOKEN environment variable
+      ~/.config/glassfrog/config.toml with [auth] token = '...'
+    """
     ctx.ensure_object(dict)
     ctx.obj["token"] = token
     ctx.obj["output"] = output
