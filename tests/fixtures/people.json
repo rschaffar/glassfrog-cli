@@ -5,7 +5,7 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "links": {
-        "organization_ids": [100],
+        "organizations": [100],
         "circles": [1, 2]
       }
     },
@@ -14,7 +14,7 @@
       "name": "Bob Jones",
       "email": "bob@example.com",
       "links": {
-        "organization_ids": [100],
+        "organizations": [100],
         "circles": [1]
       }
     }
