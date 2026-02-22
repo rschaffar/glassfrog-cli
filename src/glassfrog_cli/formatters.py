@@ -121,7 +121,7 @@ def circles_tree(
     for c in circles:
         if c.links.supported_role:
             role = role_map.get(c.links.supported_role)
-            if role and role.links.circle:
+            if role and role.links.circle and role.links.circle != c.id:
                 parent_map[c.id] = role.links.circle
 
     # Find root circles (no parent)
