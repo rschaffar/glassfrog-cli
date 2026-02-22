@@ -1,0 +1,22 @@
+{
+  "people": [
+    {
+      "id": 50,
+      "name": "Alice Smith",
+      "email": "alice@example.com",
+      "links": {
+        "organization_ids": [100],
+        "circles": [1, 2]
+      }
+    },
+    {
+      "id": 51,
+      "name": "Bob Jones",
+      "email": "bob@example.com",
+      "links": {
+        "organization_ids": [100],
+        "circles": [1]
+      }
+    }
+  ]
+}

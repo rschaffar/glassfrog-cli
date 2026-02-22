@@ -1,0 +1,24 @@
+{
+  "assignments": [
+    {
+      "id": 300,
+      "focus": "Backend systems",
+      "election": "2026-01-01",
+      "exclude_from_meetings": false,
+      "links": {
+        "person": 50,
+        "role": 12
+      }
+    },
+    {
+      "id": 301,
+      "focus": null,
+      "election": null,
+      "exclude_from_meetings": true,
+      "links": {
+        "person": 51,
+        "role": 10
+      }
+    }
+  ]
+}

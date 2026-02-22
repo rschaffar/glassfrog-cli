@@ -1,0 +1,50 @@
+{
+  "roles": [
+    {
+      "id": 10,
+      "name": "Lead Link",
+      "short_name": "LL",
+      "is_core": true,
+      "purpose": "Lead the circle",
+      "elected_until": null,
+      "organization_id": 100,
+      "links": {
+        "circle": 1,
+        "supporting_circle": null,
+        "domains": [30],
+        "accountabilities": [40, 41],
+        "people": [50]
+      }
+    },
+    {
+      "id": 12,
+      "name": "Developer",
+      "short_name": "Dev",
+      "is_core": false,
+      "purpose": "Write code",
+      "elected_until": "2026-06-30",
+      "organization_id": 100,
+      "links": {
+        "circle": 1,
+        "supporting_circle": null,
+        "domains": [],
+        "accountabilities": [42],
+        "people": [50, 51]
+      }
+    }
+  ],
+  "linked": {
+    "domains": [
+      {"id": 30, "description": "Product roadmap"}
+    ],
+    "accountabilities": [
+      {"id": 40, "description": "Allocating resources"},
+      {"id": 41, "description": "Setting priorities"},
+      {"id": 42, "description": "Delivering working software"}
+    ],
+    "people": [
+      {"id": 50, "name": "Alice Smith", "email": "alice@example.com"},
+      {"id": 51, "name": "Bob Jones", "email": "bob@example.com"}
+    ]
+  }
+}

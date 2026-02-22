@@ -1,0 +1,40 @@
+{
+  "projects": [
+    {
+      "id": 200,
+      "description": "Build GlassFrog CLI",
+      "status": "Current",
+      "created_at": "2026-01-15T10:00:00Z",
+      "archived_at": null,
+      "waiting_on_who": null,
+      "waiting_on_what": null,
+      "value": "High",
+      "effort": "Medium",
+      "roi": "High",
+      "private_to_circle": false,
+      "links": {
+        "circle": 2,
+        "person": 50,
+        "role": 12
+      }
+    },
+    {
+      "id": 201,
+      "description": "Update documentation",
+      "status": "Waiting",
+      "created_at": "2026-02-01T08:30:00Z",
+      "archived_at": null,
+      "waiting_on_who": "Bob",
+      "waiting_on_what": "Review",
+      "value": "Medium",
+      "effort": "Low",
+      "roi": "Medium",
+      "private_to_circle": true,
+      "links": {
+        "circle": 1,
+        "person": 51,
+        "role": 10
+      }
+    }
+  ]
+}

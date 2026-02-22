@@ -1,0 +1,45 @@
+{
+  "circles": [
+    {
+      "id": 1,
+      "name": "General Company Circle",
+      "short_name": "GCC",
+      "strategy": "Focus on core product",
+      "organization_id": 100,
+      "links": {
+        "roles": [10, 11, 12],
+        "policies": [20],
+        "domain": [30],
+        "supported_role": 10
+      }
+    },
+    {
+      "id": 2,
+      "name": "Engineering",
+      "short_name": "Eng",
+      "strategy": null,
+      "organization_id": 100,
+      "links": {
+        "roles": [13, 14],
+        "policies": [],
+        "domain": [],
+        "supported_role": 13
+      }
+    }
+  ],
+  "linked": {
+    "roles": [
+      {"id": 10, "name": "Lead Link", "is_core": true, "purpose": "Lead the circle"},
+      {"id": 11, "name": "Secretary", "is_core": true},
+      {"id": 12, "name": "Developer", "is_core": false, "purpose": "Write code"},
+      {"id": 13, "name": "Lead Link", "is_core": true},
+      {"id": 14, "name": "Architect", "is_core": false}
+    ],
+    "policies": [
+      {"id": 20, "title": "Code Review Policy", "body": "All code must be reviewed"}
+    ],
+    "domains": [
+      {"id": 30, "description": "Product roadmap"}
+    ]
+  }
+}
