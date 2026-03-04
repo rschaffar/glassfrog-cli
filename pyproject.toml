@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "glassfrog-cli"
-version = "0.1.0"
+version = "0.2.2"
 description = "CLI tool for read-only access to the GlassFrog API"
 license = "MIT"
 readme = "README.md"
