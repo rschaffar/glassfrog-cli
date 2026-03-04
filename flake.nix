@@ -29,7 +29,7 @@
 
           glassfrog-cli = python.pkgs.buildPythonApplication {
             pname = "glassfrog-cli";
-            version = "0.1.0";
+            version = (builtins.fromTOML (builtins.readFile ./pyproject.toml)).project.version;
             pyproject = true;
 
             src = ./.;

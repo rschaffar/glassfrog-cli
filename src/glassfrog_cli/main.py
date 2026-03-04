@@ -1,4 +1,5 @@
 import sys
+from importlib.metadata import PackageNotFoundError, version
 
 import click
 import httpx
@@ -10,6 +11,11 @@ from glassfrog_cli.commands.people import people
 from glassfrog_cli.commands.projects import projects
 from glassfrog_cli.commands.roles import roles
 
+try:
+    __version__ = version("glassfrog-cli")
+except PackageNotFoundError:
+    __version__ = "dev"
+
 
 class GlassFrogCLI(click.Group):
     """Click group with friendly error handling for API errors."""
@@ -20,9 +26,7 @@ class GlassFrogCLI(click.Group):
         except httpx.HTTPStatusError as e:
             status = e.response.status_code
             if status == 401:
-                raise click.ClickException(
-                    "Authentication failed. Check your API token."
-                ) from e
+                raise click.ClickException("Authentication failed. Check your API token.") from e
             elif status == 403:
                 raise click.ClickException(
                     "Access denied. Your API token may lack required permissions."
@@ -42,9 +46,7 @@ class GlassFrogCLI(click.Group):
                 "Cannot connect to GlassFrog API. Check your network connection."
             ) from e
         except httpx.TimeoutException as e:
-            raise click.ClickException(
-                "Request to GlassFrog API timed out. Try again."
-            ) from e
+            raise click.ClickException("Request to GlassFrog API timed out. Try again.") from e
 
 
 @click.group(cls=GlassFrogCLI)
@@ -57,7 +59,7 @@ class GlassFrogCLI(click.Group):
     help="Output format.",
 )
 @click.option("--no-color", is_flag=True, help="Disable colored output.")
-@click.version_option(version="0.1.0", prog_name="glassfrog-cli")
+@click.version_option(version=__version__, prog_name="glassfrog-cli")
 @click.pass_context
 def cli(ctx, token, output, no_color):
     """GlassFrog CLI - read-only access to the GlassFrog API.

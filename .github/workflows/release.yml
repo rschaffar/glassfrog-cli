@@ -2,6 +2,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 0.2.0, without 'v' prefix)"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -19,24 +24,40 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Read version from pyproject.toml
-        id: version
+      - name: Validate version input
         run: |
-          VERSION=$(python -c "
-          import tomllib
-          with open('pyproject.toml', 'rb') as f:
-              print(tomllib.load(f)['project']['version'])
-          ")
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Detected version: $VERSION"
+          VERSION="${{ github.event.inputs.version }}"
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Invalid version '$VERSION'. Use semver format: X.Y.Z (e.g. 0.2.0)"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "TAG=v$VERSION" >> "$GITHUB_ENV"
+          echo "Releasing version: $VERSION (tag: v$VERSION)"
 
       - name: Check tag does not already exist
         run: |
-          if git rev-parse "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
-            echo "::error::Tag ${{ steps.version.outputs.tag }} already exists. Bump the version in pyproject.toml, flake.nix, and src/glassfrog_cli/main.py before releasing."
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "::error::Tag $TAG already exists. Choose a different version."
             exit 1
           fi
+
+      - name: Update version in pyproject.toml
+        run: |
+          python -c "
+          import re, pathlib
+          p = pathlib.Path('pyproject.toml')
+          content = p.read_text()
+          content = re.sub(r'(?m)^version = \".*\"', 'version = \"${{ github.event.inputs.version }}\"', content, count=1)
+          p.write_text(content)
+          "
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyproject.toml
+          git commit -m "Release $TAG"
 
       - name: Install build tool
         run: pip install build
@@ -44,18 +65,16 @@ jobs:
       - name: Build package
         run: python -m build
 
-      - name: Create tag
+      - name: Create tag and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}"
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin HEAD:main "$TAG"
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ steps.version.outputs.tag }}" \
-            --title "${{ steps.version.outputs.tag }}" \
+          gh release create "$TAG" \
+            --title "$TAG" \
             --generate-notes \
             dist/*
