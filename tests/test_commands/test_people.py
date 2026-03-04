@@ -37,9 +37,7 @@ def runner():
 class TestPeopleList:
     @respx.mock
     def test_list_table(self, runner):
-        respx.get(f"{BASE_URL}/people").mock(
-            return_value=httpx.Response(200, json=PEOPLE_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/people").mock(return_value=httpx.Response(200, json=PEOPLE_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "people", "list"])
 
@@ -49,9 +47,7 @@ class TestPeopleList:
 
     @respx.mock
     def test_list_json(self, runner):
-        respx.get(f"{BASE_URL}/people").mock(
-            return_value=httpx.Response(200, json=PEOPLE_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/people").mock(return_value=httpx.Response(200, json=PEOPLE_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "-o", "json", "people", "list"])
 

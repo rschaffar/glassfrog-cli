@@ -1,6 +1,5 @@
 """Tests for config module."""
 
-import os
 from unittest.mock import patch
 
 import click

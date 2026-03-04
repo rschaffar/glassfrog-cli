@@ -37,9 +37,7 @@ class TestMeetingsChecklist:
             )
         )
 
-        result = runner.invoke(
-            cli, ["--token", "test", "meetings", "checklist", "--circle", "1"]
-        )
+        result = runner.invoke(cli, ["--token", "test", "meetings", "checklist", "--circle", "1"])
 
         assert result.exit_code == 0
         assert "Review PRs" in result.output
@@ -66,9 +64,7 @@ class TestMeetingsMetrics:
             )
         )
 
-        result = runner.invoke(
-            cli, ["--token", "test", "meetings", "metrics", "--circle", "1"]
-        )
+        result = runner.invoke(cli, ["--token", "test", "meetings", "metrics", "--circle", "1"])
 
         assert result.exit_code == 0
         assert "Revenue" in result.output
@@ -130,9 +126,7 @@ class TestMeetingsActions:
             )
         )
 
-        result = runner.invoke(
-            cli, ["--token", "test", "meetings", "actions", "--circle", "1"]
-        )
+        result = runner.invoke(cli, ["--token", "test", "meetings", "actions", "--circle", "1"])
 
         assert result.exit_code == 0
         assert "Fix the bug" in result.output
@@ -156,9 +150,7 @@ class TestMeetingsActions:
             )
         )
 
-        result = runner.invoke(
-            cli, ["--token", "test", "-o", "json", "meetings", "actions"]
-        )
+        result = runner.invoke(cli, ["--token", "test", "-o", "json", "meetings", "actions"])
 
         assert result.exit_code == 0
         data = json.loads(result.output)

@@ -1,4 +1,3 @@
-import sys
 from importlib.metadata import PackageNotFoundError, version
 
 import click

@@ -86,9 +86,7 @@ def runner():
 class TestRolesList:
     @respx.mock
     def test_list_table(self, runner):
-        respx.get(f"{BASE_URL}/roles").mock(
-            return_value=httpx.Response(200, json=ROLES_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/roles").mock(return_value=httpx.Response(200, json=ROLES_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "roles", "list"])
 
@@ -98,9 +96,7 @@ class TestRolesList:
 
     @respx.mock
     def test_list_filter_by_circle(self, runner):
-        respx.get(f"{BASE_URL}/roles").mock(
-            return_value=httpx.Response(200, json=ROLES_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/roles").mock(return_value=httpx.Response(200, json=ROLES_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "roles", "list", "--circle", "2"])
 
@@ -110,9 +106,7 @@ class TestRolesList:
 
     @respx.mock
     def test_list_json(self, runner):
-        respx.get(f"{BASE_URL}/roles").mock(
-            return_value=httpx.Response(200, json=ROLES_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/roles").mock(return_value=httpx.Response(200, json=ROLES_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "-o", "json", "roles", "list"])
 

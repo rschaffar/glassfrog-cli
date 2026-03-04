@@ -178,9 +178,7 @@ class TestCirclesTree:
         respx.get(f"{BASE_URL}/circles").mock(
             return_value=httpx.Response(200, json=CIRCLES_RESPONSE)
         )
-        respx.get(f"{BASE_URL}/roles").mock(
-            return_value=httpx.Response(200, json=ROLES_RESPONSE)
-        )
+        respx.get(f"{BASE_URL}/roles").mock(return_value=httpx.Response(200, json=ROLES_RESPONSE))
 
         result = runner.invoke(cli, ["--token", "test", "circles", "tree"])
 

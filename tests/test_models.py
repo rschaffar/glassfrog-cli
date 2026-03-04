@@ -8,14 +8,8 @@ import pytest
 
 from glassfrog_cli.models import (
     Action,
-    Assignment,
     ChecklistItem,
-    Circle,
-    LinkedData,
     Metric,
-    Person,
-    Project,
-    Role,
     parse_response,
 )
 

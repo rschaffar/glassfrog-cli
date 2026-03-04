@@ -47,9 +47,7 @@ class TestProjectsList:
             return_value=httpx.Response(200, json=PROJECTS_RESPONSE)
         )
 
-        result = runner.invoke(
-            cli, ["--token", "test", "projects", "list", "--circle", "1"]
-        )
+        result = runner.invoke(cli, ["--token", "test", "projects", "list", "--circle", "1"])
 
         assert result.exit_code == 0
         assert "Build CLI tool" in result.output
