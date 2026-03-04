@@ -32,8 +32,8 @@ jobs:
             exit 1
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-          echo "TAG=v$VERSION" >> "$GITHUB_ENV"
-          echo "Releasing version: $VERSION (tag: v$VERSION)"
+          echo "TAG=$VERSION" >> "$GITHUB_ENV"
+          echo "Releasing version: $VERSION"
 
       - name: Check tag does not already exist
         run: |
