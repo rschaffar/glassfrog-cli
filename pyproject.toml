@@ -6,6 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "glassfrog-cli"
 version = "0.1.0"
 description = "CLI tool for read-only access to the GlassFrog API"
+license = "MIT"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "click>=8.0",
